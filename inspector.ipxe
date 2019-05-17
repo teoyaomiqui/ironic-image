@@ -4,6 +4,6 @@
 :retry_boot
 echo In inspector.ipxe
 imgfree
-kernel --timeout 60000 http://IRONIC_IP:HTTP_PORT/images/ironic-python-agent.kernel ipa-inspection-callback-url=http://IRONIC_IP:INSPECTOR_PORT/v1/continue ipa-inspection-collectors=default,extra-hardware,logs systemd.journald.forward_to_console=yes BOOTIF=${mac} ipa-debug=1 ipa-api-url=http://IRONIC_IP:API_PORT ipa-inspection-dhcp-all-interfaces=1 rootpwd="$1$rMW7by2Q$dj4w.LOG1c3NCb5Y5yOYC1" ipa-collect-lldp=1 initrd=ironic-python-agent.initramfs || goto retry_boot
+kernel --timeout 60000 http://IRONIC_IP:HTTP_PORT/images/ironic-python-agent.kernel ipa-inspection-callback-url=http://IRONIC_IP:INSPECTOR_PORT/v1/continue ipa-inspection-collectors=default,extra-hardware,logs systemd.journald.forward_to_console=yes BOOTIF=${mac} ipa-debug=1 ipa-api-url=http://IRONIC_IP:API_PORT rootpwd="$1$rMW7by2Q$dj4w.LOG1c3NCb5Y5yOYC1" ipa-collect-lldp=1 initrd=ironic-python-agent.initramfs || goto retry_boot
 initrd --timeout 60000 http://IRONIC_IP:HTTP_PORT/images/ironic-python-agent.initramfs || goto retry_boot
 boot
