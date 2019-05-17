@@ -3,6 +3,7 @@
 IP=${IP:-"172.22.0.1"}
 HTTP_PORT=${HTTP_PORT:-"80"}
 IRONIC_INSPECTOR_PORT=${IRONIC_INSPECTOR_PORT:-"30050"}
+IRONIC_API_PORT=${IRONIC_INSPECTOR_PORT:-"30385"}
 
 mkdir -p /shared/html
 chmod 0777 /shared/html
@@ -12,7 +13,7 @@ cp /tmp/inspector.ipxe /shared/html/inspector.ipxe
 cp /tmp/dualboot.ipxe /shared/html/dualboot.ipxe
 
 # Use configured values
-sed -i -e s/IRONIC_IP/$IP/g -e s/HTTP_PORT/$HTTP_PORT/g -e s/INSPECTOR_PORT/$IRONIC_INSPECTOR_PORT/g /shared/html/inspector.ipxe
+sed -i -e s/IRONIC_IP/$IP/g -e s/HTTP_PORT/$HTTP_PORT/g -e s/INSPECTOR_PORT/$IRONIC_INSPECTOR_PORT/g -e s/API_PORT/$IRONIC_API_PORT/g /shared/html/inspector.ipxe
 
 sed -i 's/^Listen .*$/Listen '"$HTTP_PORT"'/' /etc/httpd/conf/httpd.conf
 sed -i -e 's|\(^[[:space:]]*\)\(DocumentRoot\)\(.*\)|\1\2 "/shared/html"|' \
