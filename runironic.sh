@@ -8,9 +8,11 @@ MARIADB_PASSWORD=${MARIADB_PASSWORD:-"change_me"}
 NUMPROC=$(cat /proc/cpuinfo  | grep "^processor" | wc -l)
 NUMWORKERS=$(( NUMPROC < 12 ? NUMPROC : 12 ))
 MARIADB_HOST=${MARIADB_HOST:-"localhost"}
+IRONIC_API_HOST=${IRONIC_API_HOST:-"172.22.0.1"}
 IRONIC_API_PORT=${IRONIC_API_PORT:-"30385"}
+IRONIC_INSPECTOR_HOST=${IRONIC_INSPECTOR_HOST:-"172.22.0.1"}
 IRONIC_INSPECTOR_PORT=${IRONIC_INSPECTOR_PORT:-"30050"}
-HTTP_IP=${IP:-"172.22.0.1"}
+HTTP_IP=${HTTP_IP:-"172.22.0.1"}
 
 
 # Allow access to Ironic
@@ -37,14 +39,14 @@ crudini --set /etc/ironic/ironic.conf DEFAULT default_inspect_interface inspecto
 crudini --set /etc/ironic/ironic.conf DEFAULT rpc_transport json-rpc
 crudini --set /etc/ironic/ironic.conf dhcp dhcp_provider none
 crudini --set /etc/ironic/ironic.conf conductor automated_clean true
-crudini --set /etc/ironic/ironic.conf conductor api_url http://${IP}:${IRONIC_API_PORT}
+crudini --set /etc/ironic/ironic.conf conductor api_url http://${IRONIC_API_HOST}:${IRONIC_API_PORT}
 crudini --set /etc/ironic/ironic.conf database connection mysql+pymysql://ironic:${MARIADB_PASSWORD}@${MARIADB_HOST}/ironic?charset=utf8
 crudini --set /etc/ironic/ironic.conf deploy http_url http://${HTTP_IP}:${HTTP_PORT}
 crudini --set /etc/ironic/ironic.conf deploy http_root /shared/html/
 crudini --set /etc/ironic/ironic.conf deploy default_boot_option local
 crudini --set /etc/ironic/ironic.conf deploy erase_devices_priority 0
 crudini --set /etc/ironic/ironic.conf deploy erase_devices_metadata_priority 10
-crudini --set /etc/ironic/ironic.conf inspector endpoint_override http://${IP}:${IRONIC_INSPECTOR_PORT}
+crudini --set /etc/ironic/ironic.conf inspector endpoint_override http://${IRONIC_INSPECTOR_HOST}:${IRONIC_INSPECTOR_PORT}
 crudini --set /etc/ironic/ironic.conf pxe ipxe_enabled true
 crudini --set /etc/ironic/ironic.conf pxe tftp_root /shared/tftpboot
 crudini --set /etc/ironic/ironic.conf pxe tftp_master_path /shared/tftpboot
